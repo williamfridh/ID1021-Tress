@@ -44,8 +44,20 @@ class App {
         tree_shuffled.print();
         */
 
-        int[] sizes = {2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384};
-        Benchmark.one(sizes, 20000);
+        int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240,20480,40960,81920};
+        Benchmark.one(sizes, 10000);
+
+        /*int[] t = {1,2,3};
+        int[] tt = Arrays.copyOf(t, t.length);
+        System.out.println(Arrays.toString(t));
+        System.out.println(Arrays.toString(tt));
+        Integer[] arr = Benchmark.generateArr(20);
+        Benchmark.shuffleArr(arr);
+        BinaryTree tree_shuffled = new BinaryTree();
+        for (int ii = 0; ii < arr.length; ii++) {
+            tree_shuffled.add(arr[ii], ii);
+        }
+        tree_shuffled.print();*/
 
     }
     

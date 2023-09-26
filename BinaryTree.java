@@ -111,15 +111,29 @@ class BinaryTree {
     public Integer lookup(Integer k) {
         Node tar = root;
         while (tar != null) {
-            if (tar.key.compareTo(k) == 0) {
-                return tar.val;
-            } else if (tar.key.compareTo(k) > 0) {
+            if (tar.key.compareTo(k) > 0) {
                 tar = tar.left;
-            } else {
+            } else if (tar.key.compareTo(k) < 0) {
                 tar = tar.right;
-            }
+            } else {
+                return tar.val;
+            }  
         }
+        System.out.println("NOT FOUND");
         return null;
+    }
+
+
+
+    /**
+     * Return the largest key.
+     */
+    public Node getLargestKey() {
+        Node res = root;
+        while (res.right != null) {
+            res = res.right;
+        }
+        return res;
     }
 
 }
