@@ -22,26 +22,26 @@ class Benchmark {
             double best_sorted = Double.MAX_VALUE;
             double best_shuffled = Double.MAX_VALUE;
 
-            Integer[] arr = Benchmark.generateArr(size);
-            Integer[] arr_shuffled = Arrays.copyOf(arr, arr.length);
-            Benchmark.shuffleArr(arr_shuffled);
-            Integer[] arr_search = Arrays.copyOf(arr, 100);
-            Benchmark.shuffleArr(arr_search);
-
-            BinaryTree tree = new BinaryTree();
-            BinaryTree tree_shuffled = new BinaryTree();
-            for (int ii = 0; ii < arr.length; ii++) {
-                tree.add(arr[ii], ii);
-                tree_shuffled.add(arr_shuffled[ii], ii);
-            }
-
-            // Warm up
-            for (Integer key : arr_search) {
-                tree.lookup(key);
-                tree_shuffled.lookup(key);
-            }
-
             for (int i = 0; i < tries; i++) {
+
+                Integer[] arr = Benchmark.generateArr(size);
+                Integer[] arr_shuffled = Arrays.copyOf(arr, arr.length);
+                Benchmark.shuffleArr(arr_shuffled);
+                Integer[] arr_search = Arrays.copyOf(arr, arr.length);
+                Benchmark.shuffleArr(arr_search);
+
+                BinaryTree tree = new BinaryTree();
+                BinaryTree tree_shuffled = new BinaryTree();
+                for (int ii = 0; ii < arr.length; ii++) {
+                    tree.add(arr[ii], ii);
+                    tree_shuffled.add(arr_shuffled[ii], ii);
+                }
+
+                // Warm up
+                for (Integer key : arr_search) {
+                    tree.lookup(key);
+                    tree_shuffled.lookup(key);
+                }
 
                 double n0 = System.nanoTime();
                 for (Integer key : arr_search)
