@@ -57,6 +57,7 @@ class App {
         tree_shuffled.add(7,7);
         tree_shuffled.add(21,21);
         tree_shuffled.add(40,40);
+        
         tree_shuffled.add(30,30);
         tree_shuffled.add(42,42);
         tree_shuffled.add(43,43);
