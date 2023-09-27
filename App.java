@@ -27,7 +27,7 @@ class App {
 
         
 
-        /*
+        
         Integer[] arr = Benchmark.generateArr(15);
         Integer[] arr_shuffled = Arrays.copyOf(arr, arr.length);
         Benchmark.shuffleArr(arr_shuffled);
@@ -40,12 +40,16 @@ class App {
             tree_shuffled.add(arr_shuffled[ii], ii);
         }
 
-        tree.print();
+        //tree.print();
         tree_shuffled.print();
-        */
 
-        int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240,20480,40960,81920};
-        Benchmark.one(sizes, 10000);
+        for (Integer k : tree_shuffled) {
+            System.out.println(k);
+        }
+        
+
+        //int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240,20480,40960,81920};
+        //Benchmark.one(sizes, 10000);
 
         /*int[] t = {1,2,3};
         int[] tt = Arrays.copyOf(t, t.length);

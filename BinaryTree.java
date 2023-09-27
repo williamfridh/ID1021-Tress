@@ -1,4 +1,8 @@
-class BinaryTree {
+import java.util.Iterator;
+
+
+
+class BinaryTree implements Iterable<Integer> {
 
     Node root;
 
@@ -23,13 +27,10 @@ class BinaryTree {
         if (root == null) {
             System.out.println("Empty tree.");
         }
-        print(0, root, highlight);
+        print("", root, highlight);
     }
-    public void print(int d, Node n, Integer[] highlight) {
-        for (int i = 0; i < d - 1; i++)
-            System.out.print("    ");
-        if (n != root && d > 0)
-            System.out.print("    ");
+    public void print(String d, Node n, Integer[] highlight) {
+        System.out.print(d);
         if (n != root)
             System.out.print("└───");
         System.out.print("[" + n.key + ":" + n.val + "]");
@@ -38,10 +39,15 @@ class BinaryTree {
                 System.out.print("██");
         System.out.println();
         if (!n.isLeaf()) {
-            if (n.left != null)
-                print(d + 1, n.left, highlight);
+            if (n.left != null) {
+                if (n.right != null) {
+                    print(d + "    ", n.left, highlight);
+                } else {
+                    print(d + "    ", n.left, highlight);
+                }
+            }
             if (n.right != null)
-                print(d + 1, n.right, highlight);
+                print(d + "    ", n.right, highlight);
         }
     }
 
@@ -87,6 +93,10 @@ class BinaryTree {
             }
         }
 
+        Node goLeft() {
+            return left;
+        }
+
     }
 
 
@@ -126,15 +136,83 @@ class BinaryTree {
 
 
     /**
-     * Return the largest key.
+     * Initilize the iterator.
      */
-    public Node getLargestKey() {
-        Node res = root;
-        while (res.right != null) {
-            res = res.right;
-        }
-        return res;
+    public Iterator<Integer> iterator() {
+        return new TreeIterator();
     }
+
+
+
+    private class TreeIterator implements Iterator<Integer> {
+    
+        private Node next;
+        private Stack<Node> stack;
+        private boolean go_back = false;
+        private boolean passed_root = false;
+        private boolean first_run = false;
+    
+        TreeIterator() {
+            stack = new Stack<Node>();
+
+            // Go far left to start there.
+            Node tmp = root;
+            while (tmp.left != null) {
+                stack.push(tmp);
+                tmp = tmp.left;
+            }
+            next = tmp;
+            System.out.println("START KEY: " + tmp.key);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextExists();
+        }
+
+        @Override
+        public Integer next() {
+            if (next == null)
+                return null;
+            return next.val;
+        }
+
+        private boolean nextExists() {
+            
+            if (next != root) {
+                try {
+                    next = stack.pop();
+                } catch (Exception e) {
+                    // Do nothing.
+                }
+            } else {
+                if (passed_root)
+                    return false;
+                passed_root = true;
+            }
+                if (next.right == null) {
+                    return true;
+                } else {
+                    while (next.right.left != null
+                    && next.right != null) {
+                        next = next.right;
+                    }
+                    while(next.left != null) {
+                        stack.push(next);
+                        next = next.left;
+                    }
+                    return true;
+                }
+
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+        
+    }
+    
 
 }
 
