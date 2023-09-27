@@ -16,10 +16,9 @@ public class Stack <data_type> {
 		this.first = new_el;
 	}
 
-	public data_type pop() throws Exception {
-		if (this.first == null) {
-			throw new Exception("Tried to pop empty stack");
-		}
+	public data_type pop() {
+		if (this.first == null)
+			return null;
 		data_type tmp = this.first.val;
 		this.first = this.first.nxt;
 		return tmp;

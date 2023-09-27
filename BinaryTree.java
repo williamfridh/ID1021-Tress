@@ -148,7 +148,7 @@ class BinaryTree implements Iterable<Integer> {
     
         private Node next;
         private Stack<Node> stack;
-        private boolean go_back = false;
+        private boolean just_popped = false;
         private boolean passed_root = false;
         private boolean first_run = false;
     
@@ -162,48 +162,74 @@ class BinaryTree implements Iterable<Integer> {
                 tmp = tmp.left;
             }
             next = tmp;
-            System.out.println("START KEY: " + tmp.key);
+            //System.out.println("START KEY: " + tmp.key);
+            //System.out.println();
         }
 
         @Override
         public boolean hasNext() {
-            return nextExists();
+            return (next != null);
         }
 
         @Override
         public Integer next() {
             if (next == null)
                 return null;
-            return next.val;
+            Integer tmp = next.val;
+            goToNext();
+            return tmp;
         }
 
-        private boolean nextExists() {
-            
-            if (next != root) {
-                try {
-                    next = stack.pop();
-                } catch (Exception e) {
-                    // Do nothing.
+        private void goToNext() {
+
+            if (next == root && root.left == null) {
+                if (passed_root) {
+                    next = null;
+                    return;
                 }
-            } else {
-                if (passed_root)
-                    return false;
                 passed_root = true;
             }
-                if (next.right == null) {
-                    return true;
-                } else {
-                    while (next.right.left != null
-                    && next.right != null) {
-                        next = next.right;
-                    }
-                    while(next.left != null) {
+            
+            //System.out.println(next.right);
+
+                /*if (next == root) {
+                    next = next.right;
+                    return;
+                }*/
+                
+                while (next.right != null && (next.left == null || just_popped)) {
+                //while (next.right != null && next.left == null) {
+
+                    next = next.right;
+                    just_popped = false;
+                    if (next.isLeaf() || (next.key >= root.key && next.left == null) || (next.key < root.key && next.left == null))
+                        return;
+                }
+
+                if (next.left != null && !just_popped) {
+                    while (next.left != null) {
                         stack.push(next);
                         next = next.left;
                     }
-                    return true;
+                    return;
                 }
 
+                if (next != null && next.isLeaf()) {
+                    //System.out.print("LEAF-");
+                    next = stack.pop();
+                    just_popped = true;
+                    return;
+                }
+
+                if (just_popped) {
+                    next = stack.pop();
+                    //if (next == root)
+                        //just_popped = false;
+                    //System.out.print("OFF-");
+                    return;
+                }
+
+            
         }
 
         @Override
