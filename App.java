@@ -24,7 +24,7 @@ class App {
         System.out.println(tree.lookup(222));
         System.out.println(tree.lookup(102));
         */
-
+/* 
         
         for (int iii = 0; iii < 1; iii ++) {
         
@@ -67,7 +67,7 @@ class App {
         tree_shuffled.add(28,28);
 
         //tree.print();
-        //tree_shuffled.print();
+        tree_shuffled.print();
 
         int total = 0;
         for (Integer k : tree_shuffled) {
@@ -80,11 +80,11 @@ class App {
         }
         System.out.println("Total: " + total);
 
-    }
+    }*/
         
 
-        //int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240,20480,40960,81920};
-        //Benchmark.one(sizes, 10000);
+        int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240,20480,40960,81920};
+        Benchmark.one(sizes, 20000);
 
         /*int[] t = {1,2,3};
         int[] tt = Arrays.copyOf(t, t.length);

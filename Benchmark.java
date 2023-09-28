@@ -71,22 +71,22 @@ Above 10k >> Stackoverflow issues
                 // Warm up
                 for (int ii = 10; ii > 0; ii--) {
                     //tree.lookup(arr[arr.length - 1]);
-                    tree_shuffled.lookup(arr[arr.length - 1]);
+                    tree_shuffled.lookup(arr_shuffled[arr_shuffled.length - 1]);
                 }
 
                 double n0 = System.nanoTime();
                 //for (int ii = 100; ii > 0; ii--)
                     //tree.lookup(arr[arr.length - 1]);
                 double n1 = System.nanoTime();
-                double n = (n1 - n0) / 100;
+                double n = (n1 - n0) / 1000;
                 if (n < best_sorted)
                     best_sorted = n;
                 
                 n0 = System.nanoTime();
-                for (int ii = 100; ii > 0; ii--)
-                    tree_shuffled.lookup(arr[arr.length - 1]);
+                for (int ii = 1000; ii > 0; ii--)
+                    tree_shuffled.lookup(arr_shuffled[arr_shuffled.length - 1]);
                 n1 = System.nanoTime();
-                n = (n1 - n0) / 100;
+                n = (n1 - n0);
                 if (n < best_shuffled)
                     best_shuffled = n;
 

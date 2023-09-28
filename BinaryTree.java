@@ -88,13 +88,11 @@ class BinaryTree implements Iterable<Integer> {
                 } else {
                     right.add(k, v);
                 }
-            } if (key == k) {
+            }
+            
+            if (key == k) {
                 val = v;
             }
-        }
-
-        Node goLeft() {
-            return left;
         }
 
     }
@@ -150,7 +148,6 @@ class BinaryTree implements Iterable<Integer> {
         private Stack<Node> stack;
         private boolean just_popped = false;
         private boolean passed_root = false;
-        private boolean first_run = false;
     
         TreeIterator() {
             stack = new Stack<Node>();
@@ -162,8 +159,6 @@ class BinaryTree implements Iterable<Integer> {
                 tmp = tmp.left;
             }
             next = tmp;
-            //System.out.println("START KEY: " + tmp.key);
-            //System.out.println();
         }
 
         @Override
@@ -180,6 +175,13 @@ class BinaryTree implements Iterable<Integer> {
             return tmp;
         }
 
+        /**
+         * Go to the next element in the stack (ascending order).
+         * 
+         * The logic in this function can probably be simplified trough removal of the variable "just_popped".
+         * 
+         * DO NOT TOUCH THIS. Feeling after completion = (X_X)
+         */
         private void goToNext() {
 
             if (next == root && root.left == null) {
@@ -189,47 +191,34 @@ class BinaryTree implements Iterable<Integer> {
                 }
                 passed_root = true;
             }
-            
-            //System.out.println(next.right);
-
-                /*if (next == root) {
-                    next = next.right;
-                    return;
-                }*/
                 
-                while (next.right != null && (next.left == null || just_popped)) {
-                //while (next.right != null && next.left == null) {
+            while (next.right != null && (next.left == null || just_popped)) {
 
-                    next = next.right;
-                    just_popped = false;
-                    if (next.isLeaf() || (next.key >= root.key && next.left == null) || (next.key < root.key && next.left == null))
-                        return;
-                }
-
-                if (next.left != null && !just_popped) {
-                    while (next.left != null) {
-                        stack.push(next);
-                        next = next.left;
-                    }
+                next = next.right;
+                just_popped = false;
+                if (next.isLeaf() || (next.key >= root.key && next.left == null) || (next.key < root.key && next.left == null))
                     return;
-                }
+            }
 
-                if (next != null && next.isLeaf()) {
-                    //System.out.print("LEAF-");
-                    next = stack.pop();
-                    just_popped = true;
-                    return;
+            if (next.left != null && !just_popped) {
+                while (next.left != null) {
+                    stack.push(next);
+                    next = next.left;
                 }
+                return;
+            }
 
-                if (just_popped) {
-                    next = stack.pop();
-                    //if (next == root)
-                        //just_popped = false;
-                    //System.out.print("OFF-");
-                    return;
-                }
+            if (next != null && next.isLeaf()) {
+                next = stack.pop();
+                just_popped = true;
+                return;
+            }
 
-            
+            if (just_popped) {
+                next = stack.pop();
+                return;
+            }
+
         }
 
         @Override
