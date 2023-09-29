@@ -38,7 +38,7 @@ Above 10k >> Stackoverflow issues
      */
     static void one(int[] sizes, int tries) {
 
-        System.out.println("Size\t\tSorted(us)\t\tSorted(diff.)\t\tSorted/Size\t\tUnsorted(ns)\t\tUnsorted(diff.)\t\tUnsorted/Size");
+        System.out.println("Size\t\tSorted(ns)\t\tSorted(diff.)\t\tSorted/Size\t\tUnsorted(ns)\t\tUnsorted(diff.)\t\tUnsorted/Size");
 
         double last_best_sorted = 1;
         double last_best_shuffled = 1;
@@ -51,40 +51,37 @@ Above 10k >> Stackoverflow issues
             double best_shuffled = Double.MAX_VALUE;
 
             Integer[] arr = Benchmark.generateArr(size);
-            Integer[] arr_shuffled = Arrays.copyOf(arr, arr.length);
-            Integer[] arr_search = Arrays.copyOf(arr, 10);
 
+            // Build a worst case tree.
             BinaryTree tree = new BinaryTree();
             for (int j = 0; j < arr.length; j++)
                 tree.add(arr[j], j);
 
+            // Build an best case tree.
+            BinaryTree tree_balanced = new BinaryTree();
+            tree_balanced.buildEven(arr);
+
+            Integer lookFor = arr[arr.length - 1];
+
+            // Warm up
+            for (int ii = 10; ii > 0; ii--) {
+                tree.lookup(lookFor);
+                tree_balanced.lookup(lookFor);
+            }
+
             for (int i = 0; i < tries; i++) {
 
-                Benchmark.shuffleArr(arr_shuffled);
-                Benchmark.shuffleArr(arr_search);
-
-                BinaryTree tree_shuffled = new BinaryTree();
-                for (int ii = 0; ii < arr.length; ii++) {
-                    tree_shuffled.add(arr_shuffled[ii], ii);
-                }
-
-                // Warm up
-                for (int ii = 10; ii > 0; ii--) {
-                    //tree.lookup(arr[arr.length - 1]);
-                    tree_shuffled.lookup(arr_shuffled[arr_shuffled.length - 1]);
-                }
-
                 double n0 = System.nanoTime();
-                //for (int ii = 100; ii > 0; ii--)
-                    //tree.lookup(arr[arr.length - 1]);
+                for (int ii = 1000; ii > 0; ii--)
+                    tree.lookup(lookFor);
                 double n1 = System.nanoTime();
-                double n = (n1 - n0) / 1000;
+                double n = (n1 - n0);
                 if (n < best_sorted)
                     best_sorted = n;
                 
                 n0 = System.nanoTime();
                 for (int ii = 1000; ii > 0; ii--)
-                    tree_shuffled.lookup(arr_shuffled[arr_shuffled.length - 1]);
+                    tree_balanced.lookup(lookFor);
                 n1 = System.nanoTime();
                 n = (n1 - n0);
                 if (n < best_shuffled)
@@ -92,7 +89,7 @@ Above 10k >> Stackoverflow issues
 
             }
 
-            System.out.printf("%d\t&\t%.2f\t&\t\t%.2f\t&\t\t%.0f\t&\t\t%.2f\t&\t\t%.2f\t&\t\t%.0f\n", size, best_sorted/1000, best_sorted/last_best_sorted, best_sorted/size, best_shuffled, best_shuffled/last_best_shuffled, best_shuffled/size);
+            System.out.printf("%d\t&\t%.0f\t&\t\t%.2f\t&\t\t%.0f\t&\t\t%.0f\t&\t\t%.2f\t&\t\t%.0f\n", size, best_sorted, best_sorted/last_best_sorted, best_sorted/size, best_shuffled, best_shuffled/last_best_shuffled, best_shuffled/size);
 
             last_best_sorted = best_sorted;
             last_best_shuffled = best_shuffled;

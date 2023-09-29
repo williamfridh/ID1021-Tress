@@ -81,10 +81,42 @@ class App {
         System.out.println("Total: " + total);
 
     }*/
-        
 
-        int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240,20480,40960,81920};
-        Benchmark.one(sizes, 20000);
+    
+    //Integer[] arr = Benchmark.generateArr(1000);
+    //Benchmark.shuffleArr(arr);
+
+    //Integer[] arr = new Integer[100];
+    //for (int i = 0; i < arr.length; i++)
+    //    arr[i] = i;
+
+    //BinaryTree tree = new BinaryTree();
+
+    
+        //Integer[] arr = Benchmark.generateArr(10);
+        //Benchmark.shuffleArr(arr);
+
+        //for (int ii = 0; ii < arr.length; ii++) {
+            //tree.add(arr[ii]);
+        //}
+
+    //tree.buildEven(arr);
+
+    //tree.print();
+/*int total = 0;
+        for (Integer k : tree) {
+            //System.out.println("FOUND: " + k);
+            total++;
+            if (total == 10000){
+                System.out.println("ERROR");
+                break;
+            }
+        }
+        System.out.println("TOTAL: " + total);
+        
+*/
+        int[] sizes = {2,4,8,16,32,64,128,256,512,1024,2048,4096};
+        Benchmark.one(sizes, 40000);
 
         /*int[] t = {1,2,3};
         int[] tt = Arrays.copyOf(t, t.length);

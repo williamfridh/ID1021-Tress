@@ -23,26 +23,6 @@ public class Stack <data_type> {
 		this.first = this.first.nxt;
 		return tmp;
 	}
-
-	Stack() {
-		
-	}
-
-	/*public static void main(String[] args) {
-		Stack my_stack = new Stack();
-		try {
-			my_stack.push(1);
-			my_stack.push(2);
-			my_stack.push(3);
-			System.out.println(my_stack.pop()); // 3
-			System.out.println(my_stack.pop()); // 2
-			my_stack.push(4);
-			System.out.println(my_stack.pop()); // 4
-			System.out.println(my_stack.pop()); // 1
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 }
 
